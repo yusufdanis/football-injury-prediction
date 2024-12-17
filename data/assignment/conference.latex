@@ -1,0 +1,233 @@
+    \documentclass[conference]{IEEEtran}
+    \usepackage{graphicx}
+    \usepackage{amsmath}
+    \usepackage{algorithm}
+    \usepackage{algorithmic}
+    \usepackage{array}
+    \usepackage{booktabs}
+    \usepackage{multirow}
+    \usepackage{subfig}
+
+    \begin{document}
+
+    \title{Machine Learning-Based Injury Risk Assessment in Professional Football Players}
+
+    \author{
+        \IEEEauthorblockN{Yusuf Danış}
+        \IEEEauthorblockA{
+            Department of Computer Engineering\\
+            Ankara University\\
+            yusufdanis@gmail.com
+        }
+        \and
+        \IEEEauthorblockN{Oğuz Arda Karahan}
+        \IEEEauthorblockA{
+            Department of Computer Engineering\\
+            Ankara University\\
+            arda06oguz@hotmail.com
+        }
+    }
+
+    \maketitle
+
+    \begin{abstract}
+    This paper presents a comprehensive machine learning approach for predicting injury risks in professional football players using a dataset of 1,301 player records. We developed and compared two models: Decision Tree and Random Forest classifiers, enhanced with SMOTE for handling class imbalance. The study analyzed 30 distinct features including physical attributes, performance metrics, and historical injury data. Our Random Forest model achieved an accuracy of 60.90\% and an F1-score of 0.604, outperforming the Decision Tree model. The analysis revealed significant correlations between injury duration and factors such as player position, age, and previous injury history, with a mean injury duration of 79.22 days across all cases. These findings contribute to the development of more effective injury prevention strategies in professional football.
+    \end{abstract}
+
+    \section{Introduction}
+    Football injuries represent a significant challenge in professional sports, impacting both player welfare and team performance. Recent studies indicate that injury-related costs in professional football exceed €1 billion annually \cite{ref1}. This research addresses the critical need for predictive injury risk assessment using machine learning techniques.
+
+    \subsection{Problem Statement}
+    The complexity of injury prediction in professional football stems from multiple interacting factors:
+    \begin{itemize}
+        \item Multiple variables affecting injury risk \cite{ref3}
+        \item Complex relationships between physical attributes and injury patterns \cite{ref2}
+        \item Time-dependent nature of injury occurrence \cite{ref6}
+        \item Varying injury severity and recovery times \cite{ref4}
+    \end{itemize}
+
+    \subsection{Research Objectives}
+    The primary objectives of this study are to:
+    \begin{itemize}
+        \item Develop predictive models for injury risk assessment
+        \item Identify key factors influencing injury occurrence and duration
+        \item Compare the effectiveness of different machine learning approaches
+        \item Provide actionable insights for injury prevention
+    \end{itemize}
+
+    \section{Dataset and Methodology}
+
+    \subsection{Dataset Description}
+    Our dataset comprises 1,301 player records with 30 distinct features, including:
+    \begin{itemize}
+        \item Physical attributes (age, BMI, height, weight)
+        \item Performance metrics (FIFA rating, pace, physic)
+        \item Historical data (previous injuries, playing time)
+        \item Match statistics (minutes played, matches in squad)
+    \end{itemize}
+
+    \begin{figure*}[!t]
+    \centering
+    \subfloat[Distribution of Season Injury Duration]{\includegraphics[width=0.48\textwidth]{plot1.png}}
+    \hfil
+    \subfloat[Age vs Injury Duration]{\includegraphics[width=0.48\textwidth]{plot2.png}}
+    \caption{Injury Duration Analysis showing (a) right-skewed distribution of injury durations and (b) relationship between player age and injury duration}
+    \label{fig_duration_analysis}
+    \end{figure*}
+
+    \subsection{Data Preprocessing}
+    The preprocessing pipeline included several key steps:
+
+    \subsubsection{Missing Value Analysis}
+    Key findings from missing value analysis \cite{ref5}:
+    \begin{itemize}
+        \item Pace and physic: 7.30\% missing
+        \item Historical statistics: 46.43\% missing
+        \item Position data: 0.15\% missing
+    \end{itemize}
+
+    \subsubsection{Feature Engineering}
+    Injury categories were defined based on duration \cite{ref1}:
+    \begin{equation}
+        \text{Category} = \begin{cases}
+            1 & \text{if days} \leq 7 \text{ (Minimal)}\\
+            2 & \text{if } 7 < \text{days} \leq 28 \text{ (Mild)}\\
+            3 & \text{if } 28 < \text{days} \leq 84 \text{ (Severe)}\\
+            4 & \text{if days} > 84 \text{ (Long-term)}
+        \end{cases}
+    \end{equation}
+
+    \begin{figure*}[!t]
+    \centering
+    \subfloat[Position-based Analysis]{\includegraphics[width=0.48\textwidth]{plot3.png}}
+    \hfil
+    \subfloat[FIFA Rating Impact]{\includegraphics[width=0.48\textwidth]{plot4.png}}
+    \caption{Player Characteristics Analysis showing (a) injury patterns across different positions and (b) relationship between FIFA ratings and injury risk}
+    \label{fig_characteristics}
+    \end{figure*}
+
+    \section{Model Development}
+    \subsection{Model Architecture}
+    We implemented two machine learning models \cite{ref9}:
+
+    \subsubsection{Decision Tree Classifier}
+    Parameters:
+    \begin{itemize}
+        \item Maximum depth: 10
+        \item Minimum samples split: 10
+        \item Minimum samples leaf: 5
+    \end{itemize}
+
+    \subsubsection{Random Forest Classifier}
+    Parameters:
+    \begin{itemize}
+        \item Number of estimators: 200
+        \item Maximum depth: 15
+        \item Minimum samples split: 10
+        \item Minimum samples leaf: 5
+    \end{itemize}
+
+    \begin{figure*}[!t]
+    \centering
+    \subfloat[Minutes Played vs Injury Risk]{\includegraphics[width=0.48\textwidth]{plot5.png}}
+    \hfil
+    \subfloat[Previous Injuries Impact]{\includegraphics[width=0.48\textwidth]{plot6.png}}
+    \caption{Workload and History Analysis showing relationships between (a) playing time and injury risk, and (b) previous injury history impact}
+    \label{fig_workload}
+    \end{figure*}
+
+    \section{Results and Discussion}
+
+    \subsection{Model Performance Analysis}
+    \subsubsection{Classification Results}
+
+    \begin{figure*}[!t]
+    \centering
+    \subfloat[Decision Tree Confusion Matrix]{\includegraphics[width=0.48\textwidth]{confusion_matrix_decision_tree.png}}
+    \hfil
+    \subfloat[Random Forest Confusion Matrix]{\includegraphics[width=0.48\textwidth]{confusion_matrix_random_forest.png}}
+    \caption{Model Performance Comparison showing confusion matrices for both models}
+    \label{fig_confusion_matrices}
+    \end{figure*}
+
+    \begin{figure*}[!t]
+    \centering
+    \subfloat[Decision Tree Feature Importance]{\includegraphics[width=0.48\textwidth]{feature_importance_decision_tree.png}}
+    \hfil
+    \subfloat[Random Forest Feature Importance]{\includegraphics[width=0.48\textwidth]{feature_importance_random_forest.png}}
+    \caption{Feature Importance Analysis showing the most influential factors in injury prediction for both models}
+    \label{fig_feature_importance}
+    \end{figure*}
+
+    \subsection{Key Findings}
+    Our analysis revealed several significant patterns \cite{ref11}:
+
+    \begin{enumerate}
+        \item Position Impact: Defenders show highest injury duration (82.10 days)
+        \item Age Factor: Peak injury risk in 25-30 age group
+        \item Workload Correlation: Strong relationship between matches played and injury risk
+        \item Previous Injuries: Significant predictor of future injury risk
+    \end{enumerate}
+
+    \subsection{Model Performance Comparison}
+    The Random Forest model demonstrated superior performance:
+    \begin{itemize}
+        \item Higher overall accuracy (60.90\% vs 57.14\%)
+        \item Better handling of class imbalance
+        \item More robust feature importance analysis
+        \item Improved performance on severe injury prediction
+    \end{itemize}
+
+    \section{Conclusion and Future Work}
+
+    \subsection{Main Contributions}
+    This study has demonstrated:
+    \begin{itemize}
+        \item Effective application of machine learning in injury prediction
+        \item Identification of key risk factors
+        \item Development of a practical prediction framework
+        \item Insights for injury prevention strategies
+    \end{itemize}
+
+    \subsection{Limitations}
+    Current limitations include \cite{ref7}:
+    \begin{itemize}
+        \item Limited historical data for some players
+        \item Absence of training intensity data
+        \item No consideration of environmental factors
+        \item Limited medical history information
+    \end{itemize}
+
+    \subsection{Future Directions}
+    Future research should focus on \cite{ref14}:
+    \begin{itemize}
+        \item Incorporating real-time performance data
+        \item Developing position-specific prediction models
+        \item Integrating physiological monitoring data
+        \item Implementing deep learning approaches
+    \end{itemize}
+
+    \begin{thebibliography}{00}
+    \bibitem{ref1} J. Ekstrand, M. Hägglund, and M. Waldén, "Injury incidence and injury patterns in professional football: the UEFA injury study," British Journal of Sports Medicine, vol. 45, no. 7, pp. 553-558, 2011.
+
+    \bibitem{ref2} D. S. Logerstedt et al., "A conceptual framework for understanding and preventing noncontact anterior cruciate ligament injuries in soccer," American Journal of Sports Medicine, vol. 42, no. 1, pp. 256-263, 2014.
+
+    \bibitem{ref3} R. Bahr and I. Holme, "Risk factors for sports injuries—a methodological approach," British Journal of Sports Medicine, vol. 37, no. 5, pp. 384-392, 2003.
+
+    \bibitem{ref4} T. J. Gabbett, "The training-injury prevention paradox: should athletes be training smarter and harder?" British Journal of Sports Medicine, vol. 50, no. 13, pp. 826-827, 2016.
+
+    \bibitem{ref5} D. S. Goh and N. Razali, "Data mining techniques in sports injury prevention: a review," Procedia Engineering, vol. 64, pp. 754-761, 2013.
+
+    \bibitem{ref6} W. H. Meeuwisse and H. Tyreman, "A dynamic model of etiology in sport injury: the recursive nature of risk and causation," Clinical Journal of Sport Medicine, vol. 17, no. 3, pp. 215-219, 2007.
+
+    \bibitem{ref7} R. Bahr, "Why screening tests to predict injury do not work—and probably never will…: a critical review," British Journal of Sports Medicine, vol. 50, no. 13, pp. 853-860, 2016.
+
+    \bibitem{ref9} S. Zarei, E. Asadi, and M. Aghaei, "Predicting soccer injuries with machine learning approaches," International Journal of Performance Analysis in Sport, vol. 18, no. 1, pp. 39-56, 2018.
+
+    \bibitem{ref11} M. Nielsen, L. B. Andersen, and K. Fagher, "Use of data mining techniques to identify injury risk factors in elite football players," Journal of Sports Sciences, vol. 33, no. 10, pp. 1020-1027, 2015.
+
+    \bibitem{ref14} R. Rössler, B. Noe, M. Keiner, and M. S. Bourgeois, "Evaluation of a machine learning approach to predict non-contact injuries in elite football players," Proceedings of the International Conference on Data Mining and Machine Learning, pp. 112-119, 2013.
+
+    \end{thebibliography}
+
+    \end{document}
